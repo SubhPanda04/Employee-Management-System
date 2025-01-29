@@ -1,4 +1,5 @@
-import {React, useState} from 'react'
+import {React, useState, useContext} from 'react'
+import { AuthContext } from '../../Context/AuthProvider';
 
 export const CreateTask = () => {
 
@@ -13,15 +14,20 @@ export const CreateTask = () => {
         e.preventDefault()
         setNewTask({taskTitle,taskDescription,taskDate,category,active:false,newTask:true,failed:false,completed:false})
 
-        const data = JSON.parse(localStorage.getItem('employees'));
-        data.forEach(function(employee) {
-            if(assignTo == employee.firstName) {
-                    employee.tasks.push(newTask)
-            }
+        const data = JSON.parse(localStorage.getItem('employees'))
+        data[0].employees.forEach(function (elem) {
+                if(assignTo == elem.firstName) {
+                    elem.tasks.push(newTask);
+                    elem.taskCounts.newTask = elem.taskCounts.newTask + 1; 
+                    
+                }
         })
-
-        
-
+        console.log(data);
+        setTaskTitle('');
+        setCategory('');
+        setAssignTo('');
+        setTaskDate('');
+        setTaskDescription('');
     }
   return (
     <div className='p-5 bg-[#1c1c1c] mt-7 rounded'>
